@@ -1,5 +1,4 @@
 <script setup>
-import { ref } from "vue";
 import TodoItem from "./TodoItem.vue";
 import TodoForm from "./TodoForm.vue";
 import { useTodo } from "../composables/useTodo";
