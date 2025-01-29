@@ -1,1 +1,1 @@
-export * from "./CreateRoomForm.vue";
+export { default as CreateRoomForm } from "./CreateRoomForm.vue";

@@ -1,12 +1,27 @@
-<script setup>
-defineProps({
-  modelValue: {
-    type: String,
-    required: true,
-  },
-});
+<script setup lang="ts">
+interface Props {
+  roomName: string;
+}
+const { roomName } = defineProps<Props>();
 
-defineEmits(["update:modelValue", "create-room"]);
+// イベントの命名を統一
+const UPDATE_MODEL_VALUE = "update:modelValue";
+const CREATE_ROOM = "create-room";
+interface Emits {
+  (e: typeof UPDATE_MODEL_VALUE, value: string): void;
+  (e: typeof CREATE_ROOM): void;
+}
+
+const emits = defineEmits<Emits>();
+
+const handleInput = (event: Event) => {
+  const target = event.target as HTMLInputElement;
+  emits(UPDATE_MODEL_VALUE, target.value);
+};
+
+const handleCreateRoom = () => {
+  emits(CREATE_ROOM);
+};
 </script>
 
 <template>
@@ -15,16 +30,12 @@ defineEmits(["update:modelValue", "create-room"]);
     <div class="flex gap-2">
       <input
         type="text"
-        :value="modelValue"
-        @input="$emit('update:modelValue', $event.target.value)"
+        :value="roomName"
+        @input="handleInput"
         placeholder="ルーム名を入力"
         class="flex-1 rounded border border-gray-300 px-3 py-2 focus:border-blue-500 focus:outline-none"
       />
-      <Button
-        variant="primary"
-        @click="$emit('create-room')"
-        :disabled="!modelValue"
-      >
+      <Button variant="primary" @click="handleCreateRoom" :disabled="!roomName">
         作成
       </Button>
     </div>

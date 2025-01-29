@@ -1,8 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
-import { useSnackbar } from "~/composables/useSnackbar";
 import { CreateRoomForm } from "./components";
-const { showSnackbar } = useSnackbar();
 
 // ルーム名の状態管理
 const roomName = ref("");
@@ -38,13 +36,13 @@ const createRoom = async () => {
     class="flex min-h-screen flex-col items-center justify-center bg-gray-100 p-4"
   >
     <div v-if="pending">
-      <LoadingIndicator />
+      <div>ローディング</div>
     </div>
     <div v-else class="w-full max-w-md">
       <!-- ルーム作成フォーム -->
       <CreateRoomForm v-model="roomName" @create-room="createRoom" />
       <!-- ルーム一覧 -->
-      <!-- <RoomList :rooms="roomData?.rooms || []" /> -->
+      <RoomList :rooms="roomData?.rooms || []" />
     </div>
   </div>
 </template>
