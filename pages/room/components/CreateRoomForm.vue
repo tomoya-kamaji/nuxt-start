@@ -14,6 +14,9 @@ interface Emits {
 
 const emits = defineEmits<Emits>();
 
+watchEffect(() => {
+  console.log(roomName);
+});
 const handleInput = (event: Event) => {
   const target = event.target as HTMLInputElement;
   emits(UPDATE_MODEL_VALUE, target.value);
