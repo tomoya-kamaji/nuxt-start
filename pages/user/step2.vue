@@ -9,7 +9,6 @@ import {
   registrationSchema,
   type RegistrationStep2Form,
 } from "@/features/user/types/registration";
-import { validateRegistrationStep2 } from "@/features/user/util/validation";
 import { StepIndicator } from "@/features/user/components";
 
 const router = useRouter();
