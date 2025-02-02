@@ -5,7 +5,10 @@ import {
   useRegistrationStore,
   RegistrationSteps,
 } from "@/features/user/store/useRegistrationStore";
-import type { RegistrationStep2Form } from "@/features/user/types/registration";
+import {
+  registrationSchema,
+  type RegistrationStep2Form,
+} from "@/features/user/types/registration";
 import { validateRegistrationStep2 } from "@/features/user/util/validation";
 import { StepIndicator } from "@/features/user/components";
 
@@ -27,14 +30,14 @@ const form = ref<RegistrationStep2Form>({
 const errors = ref<Partial<Record<keyof RegistrationStep2Form, string>>>({});
 
 const handleSubmit = () => {
-  const { valid, errors: validationErrors } = validateRegistrationStep2(
-    form.value
-  );
-  if (!valid) {
-    errors.value = validationErrors;
+  const result = registrationSchema.step2.safeParse(form.value);
+  if (!result.success) {
+    const fieldErrors = result.error.flatten().fieldErrors;
+    errors.value = Object.fromEntries(
+      Object.entries(fieldErrors).map(([key, messages]) => [key, messages[0]])
+    );
     return;
   }
-  errors.value = {};
   store.setStateDateStep2(form.value);
   store.nextStep();
   router.push("/user/step3");
