@@ -32,12 +32,15 @@ const errors = ref<Partial<Record<keyof RegistrationStep2Form, string>>>({});
 const handleSubmit = () => {
   const result = registrationSchema.step2.safeParse(form.value);
   if (!result.success) {
+    // エラー情報を flatten してフィールドごとの最初のエラーメッセージを取り出す
     const fieldErrors = result.error.flatten().fieldErrors;
     errors.value = Object.fromEntries(
       Object.entries(fieldErrors).map(([key, messages]) => [key, messages[0]])
     );
     return;
   }
+  // 検証成功時
+  errors.value = {};
   store.setStateDateStep2(form.value);
   store.nextStep();
   router.push("/user/step3");
