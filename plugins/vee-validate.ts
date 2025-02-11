@@ -2,5 +2,17 @@
 import { defineRule } from "vee-validate";
 import { required, email } from "@vee-validate/rules";
 
-defineRule("required", required);
-defineRule("email", email);
+export default defineNuxtPlugin(() => {
+  defineRule("required", (value: string) => {
+    if (!value) {
+      return "This field is required";
+    }
+    return true;
+  });
+  defineRule("email", (value: string) => {
+    if (!value) {
+      return "This field is required";
+    }
+    return true;
+  });
+});
